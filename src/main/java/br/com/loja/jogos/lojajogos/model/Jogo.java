@@ -2,10 +2,14 @@ package br.com.loja.jogos.lojajogos.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+@Getter
+@Setter
 @Entity
 public class Jogo {
     @Id

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Jogo</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container mt-4">
+    <h1>Cadastro de Jogo</h1>
+
+    <form th:object="${jogo}" method="post" th:action="@{/salvar}" enctype="multipart/form-data">
+        <input type="hidden" th:field="*{id}" />
+        Nome<input type="text" th:field="*{nome}" />
+        <span th:if="${#fields.hasErrors('Nome')}" th:errors="*{nome}" style="color: red"> </span> <br />
+        Data de Lançamento<input type="date" th:field="*{dataLancamento}" /><br />
+        Preço<input type="number" th:field="*{preco}" /><br />
+        Genero<input type="text" th:field="*{genero}" /><br />
+        Desenvolvedor<input type="text" th:field="*{desenvolvedor}" /><br />
+        Imagem<input type="file" name="file" >
+        <button type="submit">Cadastrar</button>
+    </form>
+
+</div>
+
+<!-- Bootstrap JS, Popper.js, and jQuery -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

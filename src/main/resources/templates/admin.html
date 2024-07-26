@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin</title>
+
+  <!-- Bootstrap CSS -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+<div class="container mt-4">
+  <h1>Administração de Jogos</h1>
+  <a href="/cadastro" class="btn btn-primary mb-3">Adicionar Novo Jogo</a>
+  <table class="table table-bordered">
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>Nome</th>
+      <th>Data de Lançamento</th>
+      <th>Preço</th>
+      <th>Imagem</th>
+      <th>Ações</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="jogo : ${jogos}">
+      <td th:text="${jogo.id}">ID</td>
+      <td th:text="${jogo.nome}">Nome do Jogo</td>
+      <td th:text="${jogo.dataLancamento}">Data de Lançamento</td>
+      <td th:text="${jogo.preco}">Preço</td>
+      <td><img th:src="@{/img} + ${jogo.imageUri}" alt="Imagem do Jogo" style="width: 100px;"></td>
+      <td>
+        <a th:href="@{/editar(id=${jogo.id})}" class="btn btn-warning btn-sm">Editar</a>
+        <a th:href="@{/deletar(id=${jogo.id})}" class="btn btn-danger btn-sm">Deletar</a>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Bootstrap JS, Popper.js, and jQuery -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

@@ -22,6 +22,10 @@ public class JogoService {
         return jogoRepository.findAll();
     }
 
+    public List<Jogo> findByIsDeletedIsFalse(){
+        return jogoRepository.findByIsDeletedIsFalse();
+    }
+
     /**
      * Metodo para buscar um jogo no banco de dados, de acordo com o id fornecido
      * @param id id que vai ser buscado no banco de dados
@@ -36,7 +40,12 @@ public class JogoService {
      * @param id id do jogo que vai ser deletado do banco de dados
      */
     public void deleteById(Long id) {
-        jogoRepository.deleteById(id);
+        Optional<Jogo> jogoOpt = jogoRepository.findById(id);
+        if (jogoOpt.isPresent()) {
+            Jogo jogo = jogoOpt.get();
+            jogo.setIsDeleted(true);
+            jogoRepository.save(jogo);
+        }
     }
 
     /**
@@ -56,4 +65,5 @@ public class JogoService {
     public Jogo update(Jogo jogo){
         return jogoRepository.saveAndFlush(jogo);
     }
+
 }
