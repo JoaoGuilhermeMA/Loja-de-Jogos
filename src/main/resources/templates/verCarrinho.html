@@ -19,25 +19,28 @@
             <th>Nome</th>
             <th>Data de Lançamento</th>
             <th>Preço</th>
+            <th>Quantidade</th>
             <th>Imagem</th>
             <th>Ações</th>
         </tr>
         </thead>
         <tbody>
         <!-- Loop through the cart items -->
-        <tr th:each="item : ${carrinho}">
-            <td th:text="${item.nome}">Nome do Jogo</td>
-            <td th:text="${item.dataLancamento}">Data de Lançamento</td>
-            <td th:text="${item.preco}">Preço</td>
-            <td><img th:src="@{/img} + ${item.imageUri}" alt="Imagem do Jogo" style="width: 100px;"></td>
+        <tr th:each="entry : ${carrinho.entrySet()}">
+            <td th:text="${entry.key.nome}">Nome do Jogo</td>
+            <td th:text="${entry.key.dataLancamento}">Data de Lançamento</td>
+            <td th:text="${entry.key.preco}">Preço</td>
+            <td th:text="${entry.value}">Quantidade</td>
+            <td><img th:src="@{/img} + ${entry.key.imageUri}" alt="Imagem do Jogo" style="width: 100px;"></td>
             <td>
-                <a th:href="@{/removerCarrinho(id=${item.id})}" class="btn btn-danger btn-sm">Deletar</a>
+                <a th:href="@{/removerCarrinho(id=${entry.key.id})}" class="btn btn-danger btn-sm">Deletar</a>
             </td>
         </tr>
         <!-- End loop -->
         </tbody>
     </table>
-    <a href="/" class="btn btn-secondary">Voltar</a>
+    <a href="/index" class="btn btn-secondary">Voltar</a>
+    <a href="/finalizarCompra" class="btn btn-success">Finalizar Compra</a> <!-- Botão para finalizar a compra -->
 </div>
 
 <!-- Bootstrap JS, Popper.js, and jQuery -->

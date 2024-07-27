@@ -27,26 +27,44 @@
 </head>
 <body>
 
-<div class="container mt-4">
-    <div class="row">
-        <!-- Loop through the list of games -->
-        <div th:each="jogo : ${jogos}" class="col-md-4">
-            <div class="card">
-                <img th:src="@{/img/} + ${jogo.imageUri}" class="card-img-top" alt="Imagem do Jogo">
-                <div class="card-body">
-                    <h5 class="card-title" th:text="${jogo.nome}">Nome do Jogo</h5>
-                    <p class="card-text" th:text="'Lançado em: ' + ${jogo.dataLancamento}">Descrição breve do jogo.</p>
-                    <a th:href="@{/adicionarCarrinho(id=${jogo.id})}" class="btn btn-primary">Adicionar ao Carrinho</a>
+<div class="section">
+    <div class="container">
+        <div class="row">
+            <div class="container mt-4">
+                <!-- section title -->
+                <div class="col-md-12">
+                    <div class="section-title">
+                        <h3 class="title">Jogos a venda!</h3>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="products-tabs">
+                            <!-- Loop through the list of games -->
+                            <div th:each="jogo : ${jogos}" class="col-md-4">
+                                <div class="product">
+                                    <div class="product-img">
+                                        <img th:src="@{/img/} + ${jogo.imageUri}" class="card-img-top" alt="Imagem do Jogo">
+                                    </div>
+                                    <div class="product-body">
+                                        <h5 class="product-category" th:text="${jogo.genero}">genero</h5>
+                                        <h5 class="product-name" th:text="${jogo.nome}">Nome do Jogo</h5>
+                                        <p class="product-price" th:text="'R$' + ${jogo.preco}">Preço do jogo</p>
+                                    </div>
+                                    <div class="add-to-cart">
+                                        <a th:href="@{/adicionarCarrinho(id=${jogo.id})}" class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> Adicionar ao Carrinho</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- End loop -->
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-        <!-- End loop -->
-    </div>
 
-    <!-- Links para ver carrinho -->
-    <div class="container mt-4">
-        <a href="/verCarrinho" class="btn btn-secondary">Ver Carrinho</a>
     </div>
+</div>
 
 <!-- Bootstrap JS, Popper.js, and jQuery -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

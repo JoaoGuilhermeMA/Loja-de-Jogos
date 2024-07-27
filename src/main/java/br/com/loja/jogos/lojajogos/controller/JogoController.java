@@ -18,9 +18,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Controller
 public class JogoController {
@@ -28,7 +26,8 @@ public class JogoController {
     @Autowired
     JogoService jogoService;
 
-    @GetMapping
+
+    @GetMapping("/index")
     public String index(Model model, HttpServletResponse response, @CookieValue(value = "visita", defaultValue = "none") String visitaCookie, HttpSession session) {
         // Retrieve non-deleted games
         List<Jogo> jogos = jogoService.findByIsDeletedIsNull();
@@ -42,13 +41,13 @@ public class JogoController {
         }
 
         // Get the cart from the session
-        List<Jogo> carrinho = (List<Jogo>) session.getAttribute("carrinho");
+        Map<Jogo, Integer> carrinho = (Map<Jogo, Integer>) session.getAttribute("carrinho");
         if (carrinho == null) {
-            carrinho = new ArrayList<>();
+            carrinho = new HashMap<>();
         }
 
         // Add the cart item count to the model
-        model.addAttribute("quantidadeCarrinho", carrinho.size());
+        model.addAttribute("quantidadeCarrinho", carrinho.values().stream().mapToInt(Integer::intValue).sum());
 
         return "index";
     }

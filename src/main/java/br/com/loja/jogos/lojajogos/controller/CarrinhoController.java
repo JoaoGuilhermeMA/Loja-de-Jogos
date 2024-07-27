@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 @Controller
@@ -27,30 +27,30 @@ public class CarrinhoController {
         if (jogoOptional.isPresent()) {
             Jogo jogo = jogoOptional.get();
 
-            List<Jogo> carrinho = (List<Jogo>) session.getAttribute("carrinho");
+            Map<Jogo, Integer> carrinho = (Map<Jogo, Integer>) session.getAttribute("carrinho");
             if (carrinho == null) {
-                carrinho = new ArrayList<>();
+                carrinho = new HashMap<>();
                 session.setAttribute("carrinho", carrinho);
             }
 
-            carrinho.add(jogo);
+            carrinho.put(jogo, carrinho.getOrDefault(jogo, 0) + 1);
             session.setAttribute("carrinho", carrinho);
         }
 
-        return "redirect:/";
+        return "redirect:/index";
     }
 
     @GetMapping("/verCarrinho")
     public String verCarrinho(Model model, HttpSession session, RedirectAttributes redirectAttributes) {
         // Recupera o carrinho da sessão
-        List<Jogo> carrinho = (List<Jogo>) session.getAttribute("carrinho");
+        Map<Jogo, Integer> carrinho = (Map<Jogo, Integer>) session.getAttribute("carrinho");
 
         // Verifica se o carrinho é nulo ou está vazio
         if (carrinho == null || carrinho.isEmpty()) {
             // Adiciona uma mensagem de aviso
             redirectAttributes.addFlashAttribute("aviso", "Seu carrinho está vazio.");
             // Redireciona para a página inicial
-            return "redirect:/";
+            return "redirect:/index";
         }
 
         // Adiciona o carrinho ao modelo
@@ -62,18 +62,27 @@ public class CarrinhoController {
     @GetMapping("/removerCarrinho")
     public String removerCarrinho(@RequestParam("id") Long id, HttpSession session) {
         // Recupera o carrinho da sessão
-        List<Jogo> carrinho = (List<Jogo>) session.getAttribute("carrinho");
+        Map<Jogo, Integer> carrinho = (Map<Jogo, Integer>) session.getAttribute("carrinho");
         if (carrinho == null) {
-            carrinho = new ArrayList<>();
+            carrinho = new HashMap<>();
         }
 
         // Encontra e remove o item com o ID especificado
-        carrinho.removeIf(jogo -> jogo.getId() == id );
+        carrinho.entrySet().removeIf(entry -> entry.getKey().getId().equals(id));
 
         // Atualiza o carrinho na sessão
         session.setAttribute("carrinho", carrinho);
 
-        return "redirect:/";
+        return "redirect:/verCarrinho";
+    }
+
+    @GetMapping("/finalizarCompra")
+    public String finalizarComprar(HttpSession session){
+        // Invalida a sessão existente
+        session.invalidate();
+
+        // Redireciona para a página index
+        return "redirect:/index";
     }
 
 }
