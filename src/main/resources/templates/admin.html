@@ -33,7 +33,7 @@
       <td th:text="${jogo.preco}">Preço</td>
       <td><img th:src="@{/img} + ${jogo.imageUri}" alt="Imagem do Jogo" style="width: 100px;"></td>
       <td>
-        <a th:href="@{/editar(id=${jogo.id})}" class="btn btn-warning btn-sm">Editar</a>
+        <a th:href="@{/editPage/{id}(id=${jogo.id})}" class="btn btn-warning btn-sm">Editar</a>
         <a th:href="@{/deletar(id=${jogo.id})}" class="btn btn-danger btn-sm">Deletar</a>
       </td>
     </tr>

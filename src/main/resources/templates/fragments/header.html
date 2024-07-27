@@ -95,10 +95,12 @@
                             <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
                                 <i class="fa fa-shopping-cart"></i>
                                 <span>Your Cart</span>
-                                <div class="qty">3</div>
+                                <!-- Atualiza a quantidade exibida com a variável do modelo -->
+                                <div class="qty" th:text="${quantidadeCarrinho}">0</div>
                             </a>
                             <div class="cart-dropdown">
                                 <div class="cart-list">
+                                    <!-- Lista de produtos no carrinho (exemplo estático) -->
                                     <div class="product-widget">
                                         <div class="product-img">
                                             <img src="/img/product01.png" alt="">
@@ -122,7 +124,7 @@
                                     </div>
                                 </div>
                                 <div class="cart-summary">
-                                    <small>3 Item(s) selected</small>
+                                    <small th:text="'Item(s) selected: ' + ${quantidadeCarrinho}">3 Item(s) selected</small>
                                     <h5>SUBTOTAL: $2940.00</h5>
                                 </div>
                                 <div class="cart-btns">
@@ -132,6 +134,7 @@
                             </div>
                         </div>
                         <!-- /Cart -->
+
 
                         <!-- Menu Toggle -->
                         <div class="menu-toggle">

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,42 +41,39 @@ public class CarrinhoController {
     }
 
     @GetMapping("/verCarrinho")
-    public String verCarrinho(Model model, HttpSession session) {
+    public String verCarrinho(Model model, HttpSession session, RedirectAttributes redirectAttributes) {
+        // Recupera o carrinho da sessão
         List<Jogo> carrinho = (List<Jogo>) session.getAttribute("carrinho");
 
-        if (carrinho == null) {
-            carrinho = new ArrayList<>();
+        // Verifica se o carrinho é nulo ou está vazio
+        if (carrinho == null || carrinho.isEmpty()) {
+            // Adiciona uma mensagem de aviso
+            redirectAttributes.addFlashAttribute("aviso", "Seu carrinho está vazio.");
+            // Redireciona para a página inicial
+            return "redirect:/";
         }
 
+        // Adiciona o carrinho ao modelo
         model.addAttribute("carrinho", carrinho);
         return "verCarrinho";
     }
 
-    @GetMapping("/editar")
-    public String editar(@RequestParam("id") Long id, Model model, HttpSession session) {
+    // Método para remover um item do carrinho
+    @GetMapping("/removerCarrinho")
+    public String removerCarrinho(@RequestParam("id") Long id, HttpSession session) {
+        // Recupera o carrinho da sessão
         List<Jogo> carrinho = (List<Jogo>) session.getAttribute("carrinho");
-
-        if (carrinho != null) {
-            Optional<Jogo> jogoOptional = jogoService.findById(id);
-            if (jogoOptional.isPresent()) {
-                Jogo jogo = jogoOptional.get();
-                model.addAttribute("jogo", jogo);
-                return "editarJogo"; // Página para editar o jogo
-            }
+        if (carrinho == null) {
+            carrinho = new ArrayList<>();
         }
 
-        return "redirect:/verCarrinho";
+        // Encontra e remove o item com o ID especificado
+        carrinho.removeIf(jogo -> jogo.getId() == id );
+
+        // Atualiza o carrinho na sessão
+        session.setAttribute("carrinho", carrinho);
+
+        return "redirect:/";
     }
 
-    @GetMapping("/deletar")
-    public String deletar(@RequestParam("id") Long id, HttpSession session) {
-        List<Jogo> carrinho = (List<Jogo>) session.getAttribute("carrinho");
-
-        if (carrinho != null) {
-            carrinho.removeIf(jogo -> jogo.getId() ==id);
-            session.setAttribute("carrinho", carrinho);
-        }
-
-        return "redirect:/verCarrinho";
-    }
 }

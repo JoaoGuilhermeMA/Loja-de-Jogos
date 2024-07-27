@@ -1,10 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <body>
+
 <div th:replace="fragments/header :: header"></div>
 
 <div th:replace="fragments/navigation :: nav"></div>
 
+<!-- Exibe mensagem de aviso se houver -->
+<div th:if="${aviso}" class="alert alert-warning" role="alert">
+	<p th:text="${aviso}"></p>
+</div>
 <!--<div th:replace="fragments/categorias :: div"></div>-->
 
 <!--<div th:replace="fragments/main :: body"></div>-->

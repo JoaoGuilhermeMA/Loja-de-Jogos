@@ -27,7 +27,7 @@ public class Jogo {
     private String imageUri;
 
     @NotNull(message = "O preço não pode ser nulo")
-    @DecimalMin(value = "0.0", inclusive = false, message = "O preço deve ser maior que zero")
+    @DecimalMin(value = "0.0", inclusive = true, message = "O preço deve ser maior que zero")
     private BigDecimal preco;
 
     @NotBlank(message = "O gênero não pode estar em branco")
@@ -36,6 +36,5 @@ public class Jogo {
     @NotBlank(message = "O desenvolvedor não pode estar em branco")
     private String desenvolvedor;
 
-    @NotNull(message = "O campo isDeleted não pode ser nulo")
-    private Boolean isDeleted = false;
+    private Long isDeleted = null;
 }

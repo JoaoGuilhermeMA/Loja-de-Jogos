@@ -5,6 +5,7 @@ import br.com.loja.jogos.lojajogos.repository.JogoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,8 +23,8 @@ public class JogoService {
         return jogoRepository.findAll();
     }
 
-    public List<Jogo> findByIsDeletedIsFalse(){
-        return jogoRepository.findByIsDeletedIsFalse();
+    public List<Jogo> findByIsDeletedIsNull(){
+        return jogoRepository.findByIsDeletedIsNull();
     }
 
     /**
@@ -43,7 +44,7 @@ public class JogoService {
         Optional<Jogo> jogoOpt = jogoRepository.findById(id);
         if (jogoOpt.isPresent()) {
             Jogo jogo = jogoOpt.get();
-            jogo.setIsDeleted(true);
+            jogo.setIsDeleted(Instant.now().toEpochMilli());
             jogoRepository.save(jogo);
         }
     }
@@ -63,6 +64,8 @@ public class JogoService {
      * @return retorna o jogo atualizado
      */
     public Jogo update(Jogo jogo){
+        System.out.println("========= " + jogo.getNome());
+        System.out.println("========= " + jogo.getId());
         return jogoRepository.saveAndFlush(jogo);
     }
 

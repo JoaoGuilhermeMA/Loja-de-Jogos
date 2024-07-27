@@ -31,8 +31,7 @@
             <td th:text="${item.preco}">Preço</td>
             <td><img th:src="@{/img} + ${item.imageUri}" alt="Imagem do Jogo" style="width: 100px;"></td>
             <td>
-                <a th:href="@{/editar(id=${item.id})}" class="btn btn-warning btn-sm">Editar</a>
-                <a th:href="@{/deletar(id=${item.id})}" class="btn btn-danger btn-sm">Deletar</a>
+                <a th:href="@{/removerCarrinho(id=${item.id})}" class="btn btn-danger btn-sm">Deletar</a>
             </td>
         </tr>
         <!-- End loop -->
